@@ -9,11 +9,9 @@ class Players (object):
 
     def add_to_total(self,change):
         self.total += change
-        print(self.total)
 
     def sub_from_total(self,change):
         self.total -= change
-        print(self.total)
 
 
 class Deck (object):
@@ -64,6 +62,9 @@ if play:
                 break
 
         player_hand = [playing_deck.deal_card()]
+        player_hand.append(playing_deck.deal_card())
+        dealer_hand = [playing_deck.deal_card()]
+        dealer_hand.append(playing_deck.deal_card())
         print('The cards in your hand are/is: ')
         print(player_hand)
         # Determine if you want more cards
@@ -79,7 +80,26 @@ if play:
                 continue
             break
         else:
-            continue
+            if sum(player_hand) > sum(dealer_hand) or sum(player_hand) == 21:
+                print('The sum of the dealers cards is: ' + str(sum(dealer_hand)))
+                print('The sum of your cards is: ' + str(sum(player_hand)))
+                print('You win!!!')
+                player_loses = False
+            else:
+                print('The sum of the dealers cards is: ' + str(sum(dealer_hand)))
+                print('The sum of your cards is: ' + str(sum(player_hand)))
+                print('You lose!!!')
+                player_loses = True
+        if player_loses:
+            p1.sub_from_total(bet_amount)
+            dealer.add_to_total(bet_amount)
+            print('Your new total is: ' + str(p1.total))
+            print('The dealer has: ' + str(dealer.total))
+        else:
+            dealer.sub_from_total(bet_amount)
+            p1.add_to_total(bet_amount)
+            print('Your new total is: ' + str(p1.total))
+            print('The dealer has: ' + str(dealer.total))
         break
     else:
         # Check who won.
